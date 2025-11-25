@@ -1,19 +1,33 @@
 import { useState } from 'react'
 
-const Form = () => {
+const Form = (props) => {
+  const [formData, setFormData] = useState({
+    songName: '',
+    arrangedBy: '',
+    voiceParts: ''
+  })
+
   const handleChange = (event) => {
-    /*
-            TODO - Logic for changing state based on form changes
-        */
+    const { name, value } = event.target
+    setFormData({
+      ...formData,
+      [name]: value
+    })
   }
 
   const onFormSubmit = (event) => {
     // to prevent page reload on form submit
     event.preventDefault()
 
-    /*
-            TODO - Logic for calling props to handle submission and setting state changes
-        */
+    // Call the handleSubmit prop with the form data
+    props.handleSubmit(formData)
+
+    // Reset the form
+    setFormData({
+      songName: '',
+      arrangedBy: '',
+      voiceParts: ''
+    })
   }
 
   return (
@@ -23,6 +37,7 @@ const Form = () => {
         <input 
           type="text" 
           name="songName" 
+          value={formData.songName}
           onChange={handleChange}
         />
       </label>
@@ -31,12 +46,13 @@ const Form = () => {
         <input 
           type="text" 
           name="arrangedBy" 
+          value={formData.arrangedBy}
           onChange={handleChange}
         />
       </label>
       <label>
         Voice Parts:
-        <select name="voiceParts" onChange={handleChange}>
+        <select name="voiceParts" value={formData.voiceParts} onChange={handleChange}>
           <option value="">Select...</option>
           <option value="SATB">SATB</option>
           <option value="SSA">SSA</option>
