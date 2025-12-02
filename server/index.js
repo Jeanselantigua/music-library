@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const db = require('./queries')
 const path = require('path')
@@ -34,6 +34,10 @@ app.delete('/music/:id', db.deleteMusic)
 
 
 // Starting Express on our Port
-app.listen(3000, () => {
-    console.log(`Server is running on port ${port}.`);
-});
+if (require.main === module) {
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}.`);
+    });
+  }
+  
+module.exports = app;
