@@ -1,13 +1,14 @@
 // Connect to Postgres using the node-postgres package
 
-const POOL = require('pg').Pool;
+// Connect to Postgres using the node-postgres package
+const { Pool } = require('pg');
 
-const pool = new POOL({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT
+// In production (Heroku), use DATABASE_URL + SSL
+const isProduction = process.env.NODE_ENV === "production";
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: isProduction ? { rejectUnauthorized: false } : false,
 });
 
 
